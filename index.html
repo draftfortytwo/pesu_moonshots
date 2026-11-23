@@ -1,0 +1,741 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>PESU Moonshots</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap">
+<style>
+/* Layout: pinned full-screen launch scene that plays as you scroll, then light-mode content in one reading column. */
+:root{
+  /* header (dark neon) */
+  --sky-top:#01010f; --sky:#03031c; --sky-low:#0a0830;
+  --glow-cyan:#45f0ff; --glow-violet:#9b5cff; --glow-magenta:#ff40d4;
+  --orange:#FF8300; --orange-deep:#d95a00; --white:#ffffff; --night-ink:#eeecff;
+  /* content (light) */
+  --paper:#f6f5fa; --card:#ffffff; --ink:#16142e; --muted:#5d5a7a; --rule:#e2e0ee; --tint:#fff1e6;
+  --font:"Roboto",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--sky-top)}
+body{background:var(--paper);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ---------- HEADER SCENE (dark) ---------- */
+.hero{position:relative;height:max(100svh,600px);overflow:hidden;isolation:isolate;color:var(--night-ink);color-scheme:dark;
+  background:radial-gradient(120% 80% at 50% 100%,var(--sky-low) 0%,var(--sky) 45%,var(--sky-top) 100%)}
+.layer{position:absolute;pointer-events:none}
+#starsImg{inset:-4%;width:108%;height:108%;max-width:none;object-fit:cover;opacity:0}
+#stars{inset:0;width:100%;height:100%}
+#nebula{inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+#planet{left:calc(50% - max(50%,450px));bottom:0;width:max(100%,900px)}
+#planet img{display:block;width:100%;max-width:none}
+.stage{position:absolute;bottom:0}
+.stage img{max-width:none}
+#stage > img{position:absolute;inset:0;width:100%;height:100%}
+#lit{clip-path:inset(100% 0 0 0)}
+#rocketStage{clip-path:polygon(-100% -1000%,200% -1000%,200% 90.2%,-100% 90.2%)}
+#outline{position:absolute;inset:0;width:100%;height:100%;overflow:visible;
+  filter:drop-shadow(0 0 3px rgba(69,240,255,.9)) drop-shadow(0 0 10px rgba(69,240,255,.45))}
+#outline line{stroke:var(--glow-cyan);stroke-width:2.4;stroke-linecap:round;fill:none}
+#outline .gate{stroke:var(--orange)}
+#behindGlow{position:absolute;left:calc(var(--u)*230px);top:calc(var(--u)*470px);width:calc(var(--u)*1210px);height:calc(var(--u)*330px);
+  background:radial-gradient(50% 50% at 50% 55%,rgba(255,140,60,.55),rgba(155,92,255,.22) 60%,transparent);opacity:0;filter:blur(14px)}
+.rig{position:absolute;left:calc(var(--u)*640px);top:calc(var(--u)*845px);width:0;height:0}
+.rocket{position:absolute;width:calc(var(--u)*54px);left:calc(var(--u)*-27px);bottom:0;filter:drop-shadow(0 0 6px rgba(69,240,255,.55))}
+.exhaust{position:absolute;width:calc(var(--u)*66px);left:calc(var(--u)*-33px);top:calc(var(--u)*-5px);transform-origin:50% 0;opacity:0}
+
+.count{position:absolute;left:0;right:0;top:20%;text-align:center;font-weight:900;font-size:clamp(88px,15vw,190px);line-height:1;
+  font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 18px var(--glow-magenta),0 0 46px var(--glow-violet);opacity:0}
+
+.hero-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:12vh;z-index:2;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.title{margin:0;font-weight:900;font-size:clamp(52px,10vw,136px);line-height:.95;letter-spacing:-.02em;color:#fff;text-wrap:balance;opacity:0;
+  text-shadow:0 0 8px rgba(255,214,170,.6),0 0 26px rgba(255,122,26,.85),0 0 64px rgba(255,122,26,.55),0 0 110px rgba(217,90,0,.45)}
+.tagline{margin:18px 0 0;font-weight:300;font-size:clamp(19px,2.3vw,27px);opacity:0}
+.ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:32px;opacity:0}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:999px;font:500 15px/1 var(--font);text-decoration:none;cursor:pointer;border:1.5px solid transparent;transition:transform .2s,box-shadow .2s,background .2s,color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-orange{background:var(--orange);color:#fff;font-weight:700;box-shadow:0 0 26px rgba(255,131,0,.45)}
+.btn-orange:hover{box-shadow:0 0 38px rgba(255,122,26,.7)}
+.btn-white{background:var(--white);color:#16142e}
+.btn-white:hover{box-shadow:0 0 28px rgba(255,255,255,.45)}
+.btn-line{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn-line:hover{background:var(--ink);color:#fff}
+
+.hint{position:absolute;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;
+  font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:rgba(238,236,255,.8);z-index:3}
+.hint i{width:22px;height:34px;border:1.5px solid rgba(238,236,255,.7);border-radius:12px;position:relative}
+.hint i::after{content:"";position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:var(--orange);animation:wheel 1.6s ease-in-out infinite}
+@keyframes wheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(10px);opacity:0}100%{opacity:0}}
+
+/* ---------- CONTENT (light) ---------- */
+main{background:var(--paper);position:relative;z-index:1}
+section{padding-block:clamp(56px,8vw,104px)}
+section + section{border-top:1px solid var(--rule)}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px 24px;margin-bottom:32px}
+.sec-head h2{margin:0;font-size:clamp(30px,4vw,44px);font-weight:900;letter-spacing:-.01em;line-height:1.05;text-wrap:balance}
+.sec-head p{margin:8px 0 0;color:var(--muted);max-width:58ch}
+.kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-deep);font-weight:700;margin:0 0 10px}
+.tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px dashed #b9b6cf;border-radius:999px;padding:3px 9px;white-space:nowrap}
+
+/* ---------- COMING UP (immersive: encrypted invitation) ---------- */
+.next-sec{position:relative;overflow:hidden;background:linear-gradient(180deg,#f6f5fa 0%,#eef0f8 70%,#fff 100%)}
+#cipher{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 72%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 72%,transparent 100%)}
+.next-sec .wrap{position:relative}
+/* about moonshots */
+.about{background:var(--paper)}
+.about + section{border-top:0}
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,80px);align-items:start}
+.about h2{margin:0;font-size:clamp(32px,4.4vw,52px);font-weight:900;line-height:1.04;letter-spacing:-.015em;color:var(--navy,#002D74);text-wrap:balance}
+.about .lead{font-size:clamp(17px,1.5vw,19px);color:var(--ink);margin:20px 0 0;max-width:58ch}
+.about .lead + .lead{color:var(--muted);font-size:16px;margin-top:12px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#dfe3ef;border:1px solid #dfe3ef;border-radius:18px;overflow:hidden}
+.facts div{background:#fff;padding:20px 22px}
+.facts strong{display:block;font-size:30px;font-weight:900;color:#002D74;line-height:1.05}
+.facts span{display:block;margin-top:6px;font-size:14px;color:var(--muted);line-height:1.4}
+.facts .o strong{color:var(--orange-deep,#e07000)}
+.about .body{color:var(--muted);font-size:16px;margin:14px 0 0;max-width:60ch}
+.about .signoff{margin:24px 0 0;font-size:clamp(20px,2vw,24px);font-weight:900;color:#002D74;letter-spacing:-.005em}
+.about .signoff span{color:var(--orange,#FF8300)}
+.about-grid > div:first-child{min-width:0}
+.court{margin:0;position:sticky;top:96px}
+.court-stage{position:relative}
+.court-svg{display:block;width:100%;height:auto;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 16%,#000 84%,transparent 100%),linear-gradient(180deg,transparent 0%,#000 14%,#000 72%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0%,#000 16%,#000 84%,transparent 100%),linear-gradient(180deg,transparent 0%,#000 14%,#000 72%,transparent 100%);mask-composite:intersect}
+.court-dots{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.court-svg .lit-all{opacity:.22}
+.lab-glow{opacity:0;transition:opacity .45s ease}
+.lab-glow.on{opacity:1}
+.lab-dot{cursor:pointer;outline:none}
+.lab-dot .hit{fill:transparent}
+.lab-dot .core{fill:#FF8300;stroke:#fff;stroke-width:7;transition:r .25s}
+.lab-dot text{font:700 26px Roboto,system-ui,sans-serif;fill:#fff;text-anchor:middle;pointer-events:none}
+.lab-dot .pulse{fill:#FF8300;opacity:.5;animation:ping 2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.lab-dot.on .core,.lab-dot:focus-visible .core{r:38}
+@keyframes ping{0%{transform:scale(1);opacity:.5}100%{transform:scale(3);opacity:0}}
+.lab-card{position:absolute;z-index:2;min-width:200px;max-width:240px;background:#002D74;color:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 18px 40px -18px rgba(0,45,116,.7);pointer-events:none;top:4%;right:0;transition:opacity .2s}
+.lab-card::before{content:"";display:block;width:26px;height:3px;border-radius:2px;background:#FF8300;margin-bottom:8px}
+.lab-card b{display:block;font-size:15px;line-height:1.25}
+.lab-card span{display:block;margin-top:4px;font-size:13px;color:#ffb366}
+.lab-card em{display:block;margin-top:6px;font-style:normal;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#aab4e6}
+.court figcaption{margin-top:4px;text-align:center;font-size:13px;color:var(--muted)}
+.court figcaption b{color:#002D74}
+.dom-art{display:block;width:83px;height:83px;margin:-4px 0 12px -6px;transition:transform .35s ease}
+.dom-art:not([src*="dom-space"]){padding:12.5px}
+.domain-card:hover .dom-art{transform:translateY(-3px) scale(1.04)}
+.dom-ph{display:grid;place-items:center;width:72px;height:72px;margin:0 0 14px;border-radius:18px;background:linear-gradient(145deg,#eef2fb,#fff);border:1px dashed #c9d2ea;color:#9aa3bd;font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-align:center;line-height:1.2}
+.pillars .pi{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:#fff;border:1px solid #e3e7f2;margin-bottom:14px;transition:transform .25s ease,box-shadow .25s ease}
+.pillars li:hover .pi{transform:translateY(-3px) rotate(-4deg);box-shadow:0 12px 26px -16px rgba(0,45,116,.5)}
+.pillars svg{width:30px;height:30px;fill:none;stroke:#002D74;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pillars svg .o{stroke:var(--orange,#FF8300)}
+.pillars svg .f{fill:currentColor;stroke:none}
+.pillars svg .o.f{fill:var(--orange,#FF8300)}
+.pillars svg circle.f:not(.o){fill:#002D74}
+.pillars{list-style:none;padding:0;margin:44px 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pillars li{border-top:2px solid #002D74;padding-top:18px}
+.pillars b{display:block;font-size:17px;color:#002D74}
+.pillars span{display:block;margin-top:4px;font-size:14px;color:var(--muted);line-height:1.45}
+.dom-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:72px 0 22px;flex-wrap:wrap}
+.dom-head h3{margin:0;font-size:clamp(22px,2.4vw,28px);font-weight:900;color:#002D74}
+.dom-head p{margin:0;color:var(--muted);font-size:14px;max-width:46ch}
+.domains{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.domain-card{position:relative;background:#fff;border:1px solid #e3e7f2;border-radius:18px;padding:18px 18px 20px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s}
+.domain-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -24px rgba(0,45,116,.45);border-color:#cdd5ea}
+.dom-moon{display:block;width:88px;height:88px;margin:-4px 0 10px -6px}
+.domain-card h4{margin:0;font-size:17px;line-height:1.25;color:#002D74;font-weight:700}
+.domain-card .lead-name{margin:10px 0 0;font-size:13px;color:var(--muted);line-height:1.4}
+.domain-card .lead-name b{display:block;color:var(--ink);font-weight:700;font-size:14px}
+.domain-card .ph{position:absolute;top:18px;right:18px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9aa3bd}
+@media (max-width:1000px){.about-grid{grid-template-columns:1fr}.court{position:static;max-width:520px;margin:0 auto}.pillars{grid-template-columns:1fr 1fr}.domains{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.domains{grid-template-columns:1fr}.facts strong{font-size:24px}}
+/* moon separator band */
+.moon-band{position:relative;height:210px;overflow:hidden;background:linear-gradient(180deg,#fff 0%,#fff 55%,var(--paper) 100%)}
+.moon-band::before{content:"";position:absolute;inset:0;opacity:.3;-webkit-mask-image:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent);filter:invert(1) hue-rotate(180deg);background-image:
+ radial-gradient(1px 1px at 7% 30%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 15% 72%,#cfd8ff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 23% 18%,#fff 50%,transparent 51%),
+ radial-gradient(1px 1px at 31% 58%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 38% 85%,#ffd7ad 50%,transparent 51%),radial-gradient(1px 1px at 44% 26%,#fff 50%,transparent 51%),
+ radial-gradient(1px 1px at 58% 80%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 63% 22%,#cfd8ff 50%,transparent 51%),radial-gradient(1px 1px at 71% 62%,#fff 50%,transparent 51%),
+ radial-gradient(1px 1px at 78% 15%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 85% 75%,#ffd7ad 50%,transparent 51%),radial-gradient(1.5px 1.5px at 92% 40%,#fff 50%,transparent 51%),
+ radial-gradient(1px 1px at 97% 85%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 3% 88%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 52% 12%,#fff 50%,transparent 51%)}
+#moon{position:absolute;left:50%;top:50%;width:180px;height:180px;transform:translate(-50%,-50%)}
+.next-label{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:28px}
+.next-label .kicker{margin:0}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:#002D74;background:#fff;border:1px solid #cfd5ea;border-radius:999px;padding:6px 12px}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(255,131,0,.18);animation:ping 1.8s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,131,0,.45)}100%{box-shadow:0 0 0 10px rgba(255,131,0,0)}}
+.next-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(28px,5vw,72px);align-items:center}
+.knum{margin:0 0 10px;font-size:14px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-deep)}
+.talk{margin:0;font-size:clamp(34px,5vw,62px);font-weight:900;line-height:1.02;letter-spacing:-.025em;color:#0d1240;text-wrap:balance;min-height:2.04em}
+.talk .s{color:var(--orange)}
+.abstract{margin:20px 0 0;font-size:18px;color:var(--muted);max-width:56ch}
+.takeaways{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:10px;max-width:56ch}
+.takeaways li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:baseline;font-size:16px}
+.takeaways b{font-size:12px;font-weight:700;color:var(--orange-deep);letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.speaker{display:flex;gap:14px;align-items:center;margin-top:28px;padding-top:22px;border-top:1px dashed #cfd5ea;max-width:56ch}
+.avatar{flex:none;width:72px;height:72px;border-radius:50%;object-fit:cover;background:#fff;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--orange)}
+.speaker p{margin:0}
+.speaker .name{font-weight:700;font-size:17px}
+.speaker .dept{color:var(--muted);font-size:14px}
+
+.pass-shadow{perspective:1200px;filter:drop-shadow(0 24px 30px rgba(0,45,116,.28))}
+.pass{--cut:60%;-webkit-mask:radial-gradient(circle at 0 var(--cut),transparent 13px,#000 13.5px) left/51% 100% no-repeat,radial-gradient(circle at 100% var(--cut),transparent 13px,#000 13.5px) right/51% 100% no-repeat;mask:radial-gradient(circle at 0 var(--cut),transparent 13px,#000 13.5px) left/51% 100% no-repeat,radial-gradient(circle at 100% var(--cut),transparent 13px,#000 13.5px) right/51% 100% no-repeat}
+.pass{position:relative;border-radius:22px;color:#e9ecff;background:#002D74;
+  box-shadow:0 2px 0 rgba(255,255,255,.08) inset;transform-style:preserve-3d;transition:transform .25s ease-out;overflow:hidden}
+.pass::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px;pointer-events:none}
+.pass-main{position:relative;z-index:1;padding:26px 26px 22px}
+.pass-top{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#aab4e6}
+.pass-top b{color:var(--orange);font-weight:700}
+.pass-date{display:flex;align-items:flex-end;gap:16px;margin:22px 0 4px}
+.pass-date .day{font-size:clamp(64px,8vw,96px);font-weight:900;line-height:.85;color:#fff;font-variant-numeric:tabular-nums}
+.pass-date .mon{font-size:22px;font-weight:700;line-height:1.1;color:#fff;letter-spacing:.06em;text-transform:uppercase}
+.pass-date .mon small{display:block;font-size:13px;font-weight:400;color:#aab4e6;letter-spacing:.04em;text-transform:none}
+.pass-rows{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.pass-rows div{border-top:1px solid rgba(255,255,255,.14);padding-top:10px}
+.pass-rows span{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#aab4e6}
+.pass-rows strong{display:block;font-size:20px;font-weight:700;color:#fff;margin-top:2px}
+.pass-rows .venue-sub{display:block;font-size:12px;color:#aab4e6;margin-top:3px;line-height:1.3}
+.tminus{margin-top:20px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.tminus > span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
+.clock{display:flex;gap:6px;font-variant-numeric:tabular-nums}
+.clock div{display:flex;align-items:baseline;gap:2px}
+.clock strong{display:inline-block;min-width:1.25em;text-align:right;font-size:28px;font-weight:900;color:#fff}
+.clock strong.tick{animation:tick .35s ease-out}
+@keyframes tick{0%{transform:translateY(-35%);opacity:.2}100%{transform:none;opacity:1}}
+.clock em{font-style:normal;font-size:13px;color:#aab4e6;margin-right:6px}
+.perf{position:relative;z-index:1;height:0;border-top:2px dashed rgba(255,255,255,.22);margin:0 18px}
+.pass-stub{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 26px 20px}
+.pass-stub{flex-direction:column;align-items:stretch;gap:10px}
+.bc-label{background:#fff;border-radius:8px;padding:8px 10px;display:flex;justify-content:center}
+.barcode{display:block;max-width:100%;height:52px;fill:#002D74}
+.pass-stub{padding-left:18px;padding-right:18px}
+.stub-id{font-size:12px;letter-spacing:.16em;color:#aab4e6;text-align:left;font-variant-numeric:tabular-nums}
+.pass-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.pass-actions .btn{box-shadow:none}
+.pass-actions .btn-line{background:#fff}
+.pass-actions .btn-line:hover{background:#002D74;border-color:#002D74;color:#fff}
+@media (max-width:900px){.next-grid{grid-template-columns:1fr}.pass-wrap{max-width:520px}}
+
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.filters button{font:500 13px/1 var(--font);color:var(--muted);background:var(--card);border:1px solid var(--rule);border-radius:999px;padding:9px 15px;cursor:pointer}
+.filters button[aria-pressed="true"]{color:#fff;background:var(--ink);border-color:var(--ink)}
+.log{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:900px){.log{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.log{grid-template-columns:1fr}}
+.log article{border:1px solid var(--rule);border-radius:16px;padding:20px;background:var(--card);display:flex;flex-direction:column;gap:10px;transition:transform .25s,box-shadow .25s}
+.log article:hover{transform:translateY(-4px);box-shadow:0 18px 40px -24px rgba(40,20,90,.35)}
+.log .num{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange-deep);font-weight:700}
+.log h3{margin:0;font-size:19px;line-height:1.3;text-wrap:balance}
+.log .takeaway{margin:0;font-size:15px;color:var(--muted)}
+.log .domain{align-self:flex-start;font-size:12px;color:var(--ink);background:#ecebf5;border-radius:999px;padding:3px 10px}
+.log a{margin-top:auto;font-size:14px;font-weight:500;color:var(--orange-deep);text-decoration:none}
+.log a:hover{text-decoration:underline}
+
+.positions{display:flex;flex-direction:column;border:1px solid var(--rule);border-radius:16px;overflow:hidden;background:var(--card)}
+.pos{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.2fr) auto;gap:16px;align-items:center;padding:18px 20px;border-top:1px solid var(--rule)}
+.pos:first-child{border-top:0}
+.pos h3{margin:0 0 4px;font-size:17px}
+.pos p{margin:0;color:var(--muted);font-size:14px}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.skills span{font-size:12px;background:var(--tint);color:#8a3a00;border-radius:6px;padding:3px 8px}
+
+.involve{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.box{border:1px solid var(--rule);border-radius:16px;padding:24px;background:var(--card)}
+.box h3{margin:0 0 6px;font-size:20px}
+.box p{margin:0 0 16px;color:var(--muted)}
+.field{display:flex;gap:10px;flex-wrap:wrap}
+.field input{flex:1 1 200px;min-width:0;font:400 15px var(--font);color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:12px 16px}
+.field input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,122,26,.2)}
+.field .btn{box-shadow:none}
+.note{font-size:14px;color:var(--orange-deep);margin:12px 0 0;min-height:1.4em}
+footer{background:var(--paper);padding-block:36px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+
+/* ---------- SITE MENU (matches pes.edu) ---------- */
+.site-nav{position:fixed;left:0;right:0;top:0;z-index:50;background:#fff;border-bottom:1px solid #d6d9e6;padding-top:env(safe-area-inset-top,0px);
+  transform:translateY(-110%);transition:transform .45s cubic-bezier(.2,.7,.2,1);box-shadow:0 6px 24px -18px rgba(0,45,116,.5)}
+.site-nav.show{transform:none}
+.site-nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:76px}
+.site-nav .logo{height:48px;width:auto;display:block}
+.site-nav ul{display:flex;gap:clamp(16px,2.4vw,40px);list-style:none;margin:0;padding:0}
+.site-nav ul a{color:#002D74;text-decoration:none;font-size:17px;font-weight:500}
+.site-nav ul a:hover{color:#FF8300}
+.menu-btn{display:none;font:500 15px var(--font);color:#002D74;background:none;border:1px solid #c9cde0;border-radius:999px;padding:8px 16px;cursor:pointer}
+@media (max-width:980px){
+  .menu-btn{display:block}
+  .site-nav ul{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;background:#fff;border-bottom:1px solid #d6d9e6;padding:8px max(16px,env(safe-area-inset-left,0px)) 16px}
+  .site-nav.open ul{display:flex}
+  .site-nav ul a{display:block;padding:12px 0;border-top:1px solid #eef0f6}
+}
+main section{scroll-margin-top:90px}
+
+@media (max-width:860px){
+  .next{grid-template-columns:1fr}
+  .pos{grid-template-columns:1fr}
+  .involve{grid-template-columns:1fr}
+}
+</style>
+
+<nav class="site-nav" id="siteNav" aria-label="Main">
+  <div class="wrap">
+    <a href="#hero" aria-label="PES University home"><svg class="logo" viewBox="55 55 333 155" role="img" aria-label="PES University"><title>PES University</title><g> <g> <path fill="#002D74" d="M132.2,57.7l4.8,12.9c31.9,2.4,57,29.1,57,61.6c0,34.1-27.7,61.8-61.8,61.8s-61.8-27.7-61.8-61.8 c0-32.5,25.1-59.1,57-61.6L132.2,57.7c-41.1,0-74.5,33.3-74.5,74.5s33.3,74.5,74.5,74.5s74.5-33.3,74.5-74.5 S173.3,57.7,132.2,57.7z"/> <ellipse transform="matrix(0.9738 -0.2275 0.2275 0.9738 -26.6095 33.5437)" fill="#FF8300" cx="132.2" cy="132.2" rx="49.1" ry="49.1"/> <g> <g> <g> <polygon fill="#FFFFFF" points="132.2,132.1 166.2,98.1 138.3,117.3 "/> <polygon fill="#002D74" points="132.2,132.1 166.2,98.1 147,126 "/> </g> <g> <polygon fill="#FFFFFF" points="132.2,132.1 98.2,166.1 126.1,146.9 "/> <polygon fill="#002D74" points="132.2,132.1 98.2,166.1 117.4,138.2 "/> </g> <g> <polygon fill="#FFFFFF" points="132.2,132.1 166.2,166.1 147,138.2 "/> <polygon fill="#002D74" points="132.2,132.1 166.2,166.1 138.3,146.9 "/> </g> <g> <polygon fill="#FFFFFF" points="132.2,132.1 98.2,98.1 117.4,126 "/> <polygon fill="#002D74" points="132.2,132.1 98.2,98.1 126.1,117.3 "/> </g> </g> <g> <polygon fill="#FFFFFF" points="132.2,132.1 132.2,65.7 126.1,117.3 "/> <polygon fill="#002D74" points="132.2,132.1 132.2,65.7 138.3,117.3 "/> </g> <g> <polygon fill="#FFFFFF" points="132.2,132.1 132.2,193.9 138.3,146.9 "/> <polygon fill="#002D74" points="132.2,132.1 132.2,193.9 126.1,146.9 "/> </g> <g> <polygon fill="#FFFFFF" points="132.2,132.1 194,132.1 147,126 "/> <polygon fill="#002D74" points="132.2,132.1 194,132.1 147,138.2 "/> </g> <g> <polygon fill="#FFFFFF" points="132.2,132.1 70.4,132.1 117.4,138.2 "/> <polygon fill="#002D74" points="132.2,132.1 70.4,132.1 117.4,126 "/> </g> </g> <g> <g> <path fill="#002D74" d="M224.7,83.5h29.4c14.6,0,21.9,9.2,21.9,20.1c0,10.4-6.2,21.2-21.8,21.2h-12.1v20.6h-17.4V83.5z M251,111.8 c5,0,8-3.3,8-7.5c0-4.3-2.9-7.5-8-7.5h-8.9v14.9H251z"/> <path fill="#002D74" d="M281.8,83.5h46.9l-5.4,13.8h-24v10.2h24v13.7h-24v10.3h29.5v13.9h-47V83.5z"/> <path fill="#002D74" d="M332.6,137.4l9.5-11.1c3.6,3.7,9.8,7,16.1,7c3.9,0,8.5-1,8.5-4.7c0-3.4-2.8-4.4-6.2-5.3l-10.9-3 c-8.4-2.3-14.6-7.7-14.6-17.2c0-11.5,9.6-20.7,24.3-20.7c11.2,0,17.7,2.5,23.6,7.9l-10.2,10.5c-3-3.2-8.6-5-12.8-5 c-4.3,0-7.7,1.2-7.7,4.8c0,3.2,3.6,4,8.1,5.2l9.4,2.6c9.5,2.5,15.2,8.2,15.2,17.2c0,14.5-13.2,20.8-25.5,20.8 C348.8,146.5,339.8,144.5,332.6,137.4z"/> </g> <g> <path fill="#002D74" d="M224.7,174.6V163h3.3v11.2c0,2.2,1,3.8,3.6,3.8c2.4,0,3.6-1.3,3.6-3.8V163h3.3v11.4c0,4.2-2.8,6.6-6.9,6.6 C227.5,181,224.7,178.9,224.7,174.6z"/> <path fill="#002D74" d="M243.2,163h3.2l7.7,12.1h0V163h3.2v17.7h-3.2l-7.7-12.1h0v12.1h-3.2V163z"/> <path fill="#002D74" d="M261.4,180.8v-2.9h3.8v-11.9h-3.8V163h10.8v2.9h-3.8v11.9h3.8v2.9H261.4z"/> <path fill="#002D74" d="M274.5,163h3.4l4,13.1h0l4-13.1h3.4l-5.9,17.8h-3.2L274.5,163z"/> <path fill="#002D74" d="M292.2,163h12.3v2.9h-9v4.3h8v2.9h-8v4.7h9.1v2.9h-12.4V163z"/> <path fill="#002D74" d="M308.7,163h7c3.3,0,6,1.9,6,5.6c0,2.1-1.1,4.3-3.5,5.1l4.4,7H319l-4.2-6.6H312v6.6h-3.3V163z M315.3,171.3 c1.9,0,3.2-0.9,3.2-2.8c0-2.1-1.4-2.8-3.2-2.8H312v5.5H315.3z"/> <path fill="#002D74" d="M323.9,176.7l3-1.2c0.7,1.7,2.3,2.7,4.3,2.7c1.8,0,3.5-0.7,3.5-2.3c0-1.3-1.1-1.9-2.4-2.3l-3-0.7 c-2.4-0.6-4.3-1.7-4.3-4.8c0-3.3,2.8-5.3,6.2-5.3c3,0,5.6,1.2,6.4,3.8l-2.9,1.1c-0.7-1.5-2-2.1-3.7-2.1c-1.4,0-2.8,0.6-2.8,2.2 c0,1.2,1.2,1.8,2.6,2.2l3,0.7c2.1,0.5,4.1,1.8,4.1,4.9c0,3.3-2.9,5.4-6.8,5.4C327.9,181,324.9,179.7,323.9,176.7z"/> <path fill="#002D74" d="M340,180.8v-2.9h3.8v-11.9H340V163h10.8v2.9H347v11.9h3.8v2.9H340z"/> <path fill="#002D74" d="M358.2,165.9h-5.1V163h13.5v2.8h-5.1v14.9h-3.3V165.9z"/> <path fill="#002D74" d="M373.6,173.7l-5.9-10.6h3.6l4,7.4l3.9-7.4h3.6l-6,10.7v7.1h-3.2V173.7z"/> </g> </g> </g> </g> </svg></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navList">Menu</button>
+    <ul id="navList">
+      <li><a href="#">About</a></li><li><a href="#">Academics</a></li><li><a href="#">Admissions</a></li><li><a href="#">Placements</a></li>
+      <li><a href="#">NAAC</a></li><li><a href="#">Research</a></li><li><a href="#">Campus Life</a></li>
+    </ul>
+  </div>
+</nav>
+<header class="hero" id="hero" aria-label="PESU Moonshots">
+  <img class="layer" id="starsImg" src="img/starfield.webp" alt="">
+  <canvas class="layer" id="stars" aria-hidden="true"></canvas>
+  <img class="layer" id="nebula" src="img/nebula.webp" alt="">
+  <div class="layer" id="planet"><img src="img/planet.webp" alt=""></div>
+
+  <!-- rocket sits BEHIND the campus so it rises from behind the building -->
+  <div class="stage layer" id="rocketStage" aria-hidden="true">
+    <div id="behindGlow"></div>
+    <div class="rig" id="rig">
+      <img class="exhaust" id="exB" src="img/exhaust-b.webp" alt="">
+      <img class="exhaust" id="exA" src="img/exhaust-a.webp" alt="">
+      <img class="rocket" id="rocket" src="img/rocket.webp" alt="">
+    </div>
+  </div>
+
+  <div class="stage layer" id="stage" aria-hidden="true">
+    <img id="unlit" src="img/campus-unlit.webp" alt="">
+    <img id="lit" src="img/campus-lit.webp" alt="">
+    <svg id="outline" viewBox="0 0 1672 941" preserveAspectRatio="none"></svg>
+  </div>
+
+
+  <div class="hero-content">
+    <h1 class="title" id="title">PESU Moonshots</h1>
+    <p class="tagline" id="tagline">Where research reaches for the moon.</p>
+    <div class="ctas" id="ctas">
+      <a class="btn btn-orange" href="#next">Register for next keynote</a>
+      <a class="btn btn-white" href="#keynotes">Watch previous presentations</a>
+    </div>
+  </div>
+
+  <div class="hint" id="hint"><i aria-hidden="true"></i><span>Scroll to launch</span></div>
+</header>
+
+<main>
+  <section id="next" class="next-sec">
+    <canvas id="cipher" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="next-label">
+        <p class="kicker">Coming up</p>
+        <span class="chip"><i aria-hidden="true"></i>Cybersecurity, IoT &amp; Drones</span>
+      </div>
+      <div class="next-grid">
+        <div>
+          <h2 class="talk" id="mTalk" data-text="Zero trust at the edge: securing drones and IoT swarms">Zero trust at the edge: securing drones and IoT swarms</h2>
+          <p class="abstract">Every connected sensor, camera and drone is a door into a network. This keynote looks at how attackers find those doors, and how a zero-trust approach locks them without slowing devices down.</p>
+          <ul class="takeaways">
+            <li><b>01</b><span>How real attacks on IoT devices and drones unfold</span></li>
+            <li><b>02</b><span>What "zero trust" means for small, low-power devices</span></li>
+            <li><b>03</b><span>Open research problems, and lab positions to work on them</span></li>
+          </ul>
+          <div class="speaker">
+            <img class="avatar" src="img/speaker-prasad-hb.webp" alt="Prof. Prasad H B" width="72" height="72">
+            <div><p class="name">Prof. Prasad H B</p><p class="dept">Director, C-ISFCR &amp; C-IOT</p></div>
+          </div>
+        </div>
+        <div class="pass-wrap">
+          <div class="pass-shadow"><article class="pass" id="pass" aria-label="Keynote entry pass">
+            <div class="pass-main">
+              <div class="pass-top"><span>Entry pass</span><b>PESU Moonshots</b></div>
+              <div class="pass-date"><span class="day" id="pDay">11</span><span class="mon"><span id="pMon">Dec</span><small id="pWeek">Friday, 2026</small></span></div>
+              <div class="pass-rows">
+                <div><span>Time</span><strong id="pTime">4:00 PM IST</strong></div>
+                <div><span>Venue</span><strong>GJBC Audi 2A</strong><small class="venue-sub">PES University, RR Campus</small></div>
+              </div>
+              <div class="tminus"><span>T-minus</span>
+                <div class="clock" id="clock" role="timer" aria-label="Time until the keynote">
+                  <div><strong data-u="d">00</strong><em>d</em></div>
+                  <div><strong data-u="h">00</strong><em>h</em></div>
+                  <div><strong data-u="m">00</strong><em>m</em></div>
+                  <div><strong data-u="s">00</strong><em>s</em></div>
+                </div>
+              </div>
+            </div>
+            <div class="perf" aria-hidden="true"></div>
+            <div class="pass-stub">
+              <div class="stub-id">PESU-MS · RR-GJBC-2A</div>
+              <div class="bc-label"><svg class="barcode" id="barcode" viewBox="0 0 400 40" preserveAspectRatio="none" shape-rendering="crispEdges" role="img" aria-label="Barcode: Navigation for the Real World"></svg></div>
+            </div>
+          </article></div>
+          <div class="pass-actions">
+            <a class="btn btn-orange" href="#involve">Register for this keynote</a>
+            <a class="btn btn-line" id="cal" href="#" target="_blank" rel="noopener">Add to calendar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="moon-band" id="moonBand" aria-hidden="true"><canvas id="moon"></canvas></div>
+
+  <section id="about" class="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div>
+          <p class="kicker">About Moonshots</p>
+          <h2>Big research questions, one keynote at a time.</h2>
+          <p class="lead">Moonshots is PES University's monthly invitation to step inside the work that's shaping what comes next. Every month, a professor who leads one of our research areas takes the stage to open up their lab: the questions keeping them up at night, the problems they're racing to solve, and the breakthroughs still taking shape.</p>
+          <p class="body">It isn't a lecture. It's a look behind the curtain at research in motion, from early experiments and unexpected failures to the ideas that could change an industry. Most importantly, every session ends with an open door: real, concrete ways for students to join the work, whether that's a research assistantship, a project team, or a seat at the lab bench.</p>
+          <p class="body">Moonshots exists to close the gap between curiosity and contribution. Some of the most important research at PES is happening a few corridors away, and we want every student and faculty member to know it's there, and that they're welcome in it.</p>
+          <p class="signoff">Aim high. Get involved. <span>Take your shot.</span></p>
+        </div>
+        <figure class="court" id="court">
+          <div class="court-stage">
+            <svg class="court-svg" viewBox="0 0 1254 1254" aria-label="Interactive drawing of the PES courtyard with five research labs marked">
+              <defs><clipPath id="lab0"><polygon points="60,297 230,389 230,560 60,500"/></clipPath><clipPath id="lab1"><polygon points="380,471 600,590 600,690 380,613"/></clipPath><clipPath id="lab2"><polygon points="1040,560 1248,535 1248,668 1040,680"/></clipPath><clipPath id="lab3"><polygon points="682,800 815,800 815,900 682,900"/></clipPath><clipPath id="lab4"><polygon points="840,507 1000,503 1000,545 840,548"/></clipPath><clipPath id="courtReveal"><rect id="revealRect" x="0" y="1254" width="1254" height="1254"/></clipPath><clipPath id="litReveal"><rect id="litRect" x="0" y="1254" width="1254" height="1254"/></clipPath></defs>
+              <image href="img/courtyard-lines.webp" width="1254" height="1254" clip-path="url(#courtReveal)"/>
+              <image class="lit-all" href="img/courtyard-lit.webp" width="1254" height="1254" clip-path="url(#litReveal)"/>
+              <image class="lab-glow" data-i="0" href="img/courtyard-lit.webp" width="1254" height="1254" clip-path="url(#lab0)"/><image class="lab-glow" data-i="1" href="img/courtyard-lit.webp" width="1254" height="1254" clip-path="url(#lab1)"/><image class="lab-glow" data-i="2" href="img/courtyard-lit.webp" width="1254" height="1254" clip-path="url(#lab2)"/><image class="lab-glow" data-i="3" href="img/courtyard-lit.webp" width="1254" height="1254" clip-path="url(#lab3)"/><image class="lab-glow" data-i="4" href="img/courtyard-lit.webp" width="1254" height="1254" clip-path="url(#lab4)"/>
+              
+            </svg>
+            <svg class="court-dots" viewBox="0 0 1254 1254" aria-hidden="false"><g class="lab-dot" data-i="0" tabindex="0" role="button" aria-label="Lab 1" transform="translate(145 436)"><circle class="hit" r="70"/><circle class="pulse" r="28"/><circle class="core" r="27"/><text y="9">01</text></g><g class="lab-dot" data-i="1" tabindex="0" role="button" aria-label="Lab 2" transform="translate(490 591)"><circle class="hit" r="70"/><circle class="pulse" r="28"/><circle class="core" r="27"/><text y="9">02</text></g><g class="lab-dot" data-i="2" tabindex="0" role="button" aria-label="Lab 3" transform="translate(1144 611)"><circle class="hit" r="70"/><circle class="pulse" r="28"/><circle class="core" r="27"/><text y="9">03</text></g><g class="lab-dot" data-i="3" tabindex="0" role="button" aria-label="Lab 4" transform="translate(748 850)"><circle class="hit" r="70"/><circle class="pulse" r="28"/><circle class="core" r="27"/><text y="9">04</text></g><g class="lab-dot" data-i="4" tabindex="0" role="button" aria-label="Lab 5" transform="translate(920 526)"><circle class="hit" r="70"/><circle class="pulse" r="28"/><circle class="core" r="27"/><text y="9">05</text></g></svg>
+            <div class="lab-card" id="labCard" hidden><b></b><span></span><em>Click to see this domain</em></div>
+          </div>
+          <figcaption><b>A few corridors away.</b> Hover or tap a lab to see who leads it.</figcaption>
+        </figure>
+      </div>
+      <ul class="pillars">
+        <li><span class="pi"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M16 5h8M17.5 5v10L9 31a3 3 0 0 0 2.7 4.4h16.6A3 3 0 0 0 31 31l-8.5-16V5"/><path class="o" d="M12.5 25h15"/><circle class="o f" cx="18" cy="29.5" r="1.6"/><circle class="o f" cx="23.5" cy="31" r="1.1"/></svg></span><b>Research</b><span>The questions a lab is chasing, and what it has found so far.</span></li>
+        <li><span class="pi"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5 34 12.5 20 20 6 12.5Z"/><path d="M6 20l14 7.5L34 20"/><path class="o" d="M6 27.5 20 35l14-7.5"/></svg></span><b>Projects</b><span>Live work that students can join, build on or learn from.</span></li>
+        <li><span class="pi"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 35V6h17v29"/><path d="M5 35h30"/><path class="o" d="M26 8l7 3v24l-7-2"/><circle cx="21.5" cy="21" r="1.4" class="f"/></svg></span><b>Open positions</b><span>Research assistant, internship and PhD openings in the lab.</span></li>
+        <li><span class="pi"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 6v28h28"/><path class="o" d="M11 27l7-8 5 5 9-11"/><path class="o" d="M26 13h6v6"/></svg></span><b>Trends</b><span>Where the field is heading, and what to learn to get there.</span></li>
+      </ul>
+      <div class="dom-head"><h3>The five moonshots</h3><p>Every keynote comes from one of five research domains, each led by a PES professor.</p></div>
+      <div class="domains" id="domains">
+        <article class="domain-card"><span class="ph">01</span><img class="dom-art" src="img/dom-health.webp" alt="" width="104" height="104" loading="lazy"><h4>Healthcare Technologies</h4><p class="lead-name"><b>Dr. Gowri Srinivasa</b>Center for Pattern Recognition</p></article>
+        <article class="domain-card"><span class="ph">02</span><img class="dom-art" src="img/dom-space.webp" alt="" width="104" height="104" loading="lazy"><h4>Space Research &amp; Innovation</h4><p class="lead-name"><b>Dr. Manikandan J</b>Director, CORI</p></article>
+        <article class="domain-card"><span class="ph">03</span><img class="dom-art" src="img/dom-chips.webp" alt="" width="104" height="104" loading="lazy"><h4>Chips &amp; Semiconductors</h4><p class="lead-name"><b>Prof. Sathya Prasad</b>PESU CIE</p></article>
+        <article class="domain-card"><span class="ph">04</span><img class="dom-art" src="img/dom-cyber.webp" alt="" width="104" height="104" loading="lazy"><h4>Cybersecurity, IoT &amp; Drones</h4><p class="lead-name"><b>Prof. Prasad H B</b>Director, C-ISFCR &amp; C-IOT</p></article>
+        <article class="domain-card"><span class="ph">05</span><img class="dom-art" src="img/dom-ai.webp" alt="" width="104" height="104" loading="lazy"><h4>AI, Cloud Computing &amp; Big Data</h4><p class="lead-name"><b>Dr. Shylaja S S</b>Director, CDSAML &amp; CCBD</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="keynotes">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><p class="kicker">Keynote archive</p><h2>Past keynotes</h2><p>Every talk so far, with the recording, slides and one takeaway. Filter by research area.</p></div>
+
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Filter by research area">
+        <button type="button" aria-pressed="true" data-f="all">All</button>
+        <button type="button" aria-pressed="false" data-f="AI">AI</button>
+        <button type="button" aria-pressed="false" data-f="Biotech">Biotech</button>
+        <button type="button" aria-pressed="false" data-f="Space">Space</button>
+        <button type="button" aria-pressed="false" data-f="Energy">Energy</button>
+      </div>
+      <div class="log" id="log"></div>
+    </div>
+  </section>
+
+  <section id="positions">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><p class="kicker">Open positions</p><h2>Join a lab</h2><p>Research assistant, internship and PhD openings mentioned in the keynotes.</p></div>
+
+      </div>
+      <div class="positions" id="pos"></div>
+    </div>
+  </section>
+
+  <section id="involve">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="kicker">Get involved</p><h2>Don't miss a launch</h2></div></div>
+      <div class="involve">
+        <form class="box" id="remind" novalidate>
+          <h3>Get keynote reminders</h3>
+          <p>One email a month, a week before each keynote.</p>
+          <div class="field">
+            <input id="email" type="email" placeholder="you@pes.edu" autocomplete="email" aria-label="Email address">
+            <button class="btn btn-orange" type="submit">Remind me</button>
+          </div>
+          <p class="note" id="remindNote" aria-live="polite"></p>
+        </form>
+        <form class="box" id="suggest" novalidate>
+          <h3>Suggest a speaker or topic</h3>
+          <p>Know a professor whose work should be on stage? Tell us.</p>
+          <div class="field">
+            <input id="idea" type="text" placeholder="Name or topic" aria-label="Speaker or topic">
+            <button class="btn btn-line" type="submit">Send idea</button>
+          </div>
+          <p class="note" id="suggestNote" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap"><span>PESU Moonshots</span><span>Prototype · forms are not connected yet</span></div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(() => {
+/* ---------- data (sample) ---------- */
+const NEXT = { num:"07", talk:"Zero trust at the edge: securing drones and IoT swarms", start:"2026-12-11T16:00:00+05:30", end:"2026-12-11T17:30:00+05:30", venue:"GJBC Audi 2A, PES University, RR Campus" };
+const LOG = [
+  {n:"06",d:"Space",t:"Building CubeSats on a student budget",m:"Nov 2026",k:"Off-the-shelf parts got a 1U satellite to flight readiness in 14 months."},
+  {n:"05",d:"AI",t:"Small language models for Indian languages",m:"Oct 2026",k:"Careful data beats model size for low-resource languages."},
+  {n:"04",d:"Biotech",t:"Lab-on-a-chip diagnostics for rural clinics",m:"Sep 2026",k:"Paper microfluidics can bring a blood test under ₹50."},
+  {n:"03",d:"Energy",t:"Sodium-ion batteries for two-wheelers",m:"Aug 2026",k:"Cheaper cells that hold up in Bengaluru summers."},
+  {n:"02",d:"AI",t:"Robots that learn from one demonstration",m:"Jul 2026",k:"Imitation learning is moving from labs to shop floors."},
+  {n:"01",d:"Space",t:"Reading the ionosphere with GNSS signals",m:"Jun 2026",k:"Everyday GPS receivers double as space-weather sensors."}
+];
+const POS = [
+  {t:"Research assistant, satellite navigation",l:"Space systems lab · 6 months",s:["Python","Signal processing","Kalman filters"]},
+  {t:"Summer intern, Indic language models",l:"AI research group · 8 weeks",s:["PyTorch","NLP","Data curation"]},
+  {t:"PhD position, microfluidic diagnostics",l:"Biotech lab · Full time",s:["Wet lab","CAD","Biosensors"]}
+];
+const $ = s => document.querySelector(s);
+
+/* ---------- content ---------- */
+const start=new Date(NEXT.start), end=new Date(NEXT.end);
+const IST={timeZone:"Asia/Kolkata"};
+$("#pDay").textContent=start.toLocaleString("en-IN",{...IST,day:"numeric"});
+$("#pMon").textContent=start.toLocaleString("en-IN",{...IST,month:"short"});
+$("#pWeek").textContent=start.toLocaleString("en-IN",{...IST,weekday:"long"})+", "+start.toLocaleString("en-IN",{...IST,year:"numeric"});
+$("#pTime").textContent=start.toLocaleString("en-US",{...IST,hour:"numeric",minute:"2-digit"})+" IST";
+const g=d=>d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+$("#cal").href="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent("PESU Moonshots keynote: "+NEXT.talk)+"&dates="+g(start)+"/"+g(end)+"&location="+encodeURIComponent(NEXT.venue)+"&details="+encodeURIComponent("Monthly research keynote at PES University. 4:00 PM IST, GJBC Audi 2A, PES University, RR Campus.");
+const prev={};
+function tick(){ const ms=Math.max(0,start-new Date()); const v={d:Math.floor(ms/864e5),h:Math.floor(ms/36e5)%24,m:Math.floor(ms/6e4)%60,s:Math.floor(ms/1e3)%60};
+  document.querySelectorAll("#clock strong").forEach(el=>{const t=String(v[el.dataset.u]).padStart(2,"0"); if(prev[el.dataset.u]!==t){el.textContent=t; prev[el.dataset.u]=t; el.classList.remove("tick"); void el.offsetWidth; el.classList.add("tick");}}); }
+tick(); setInterval(tick,1000);
+
+/* pass barcode: real Code 128 (set B), scans to the PES tagline */
+(()=>{ const P="212222 222122 222221 121223 121322 131222 122213 122312 132212 221213 221312 231212 112232 122132 122231 113222 123122 123221 223211 221132 221231 213212 223112 312131 311222 321122 321221 312212 322112 322211 212123 212321 232121 111323 131123 131321 112313 132113 132311 211313 231113 231311 112133 112331 132131 113123 113321 133121 313121 211331 231131 213113 213311 213131 311123 311321 331121 312113 312311 332111 314111 221411 431111 111224 111422 121124 121421 141122 141221 112214 112412 122114 122411 142112 142211 241211 221114 413111 241112 134111 111242 121142 121241 114212 124112 124211 411212 421112 421211 212141 214121 412121 111143 111341 131141 114113 114311 411113 411311 113141 114131 311141 411131 211412 211214 211232 2331112".split(" ");
+  const TXT="Navigation for the Real World"; const codes=[104,...[...TXT].map(c=>c.charCodeAt(0)-32)];
+  let sum=104; codes.slice(1).forEach((c,i)=>sum+=c*(i+1)); codes.push(sum%103,106);
+  const Q=0; let x=Q, out="";
+  codes.forEach(c=>[...P[c]].forEach((w,i)=>{ w=+w; if(i%2===0) out+=`<rect x="${x}" y="0" width="${w}" height="40"/>`; x+=w; }));
+  const W=x+Q; const svg=$("#barcode"); svg.setAttribute("viewBox",`0 0 ${W} 40`); svg.style.width=W+"px"; svg.innerHTML=out; })();
+
+/* pass tilts toward the pointer, with a moving glare */
+const pass=$("#pass");
+const placeCut=()=>{ const pf=pass.querySelector(".perf"); pass.style.setProperty("--cut",(pf.offsetTop)+"px"); };
+placeCut(); new ResizeObserver(placeCut).observe(pass);
+pass.addEventListener("pointermove",e=>{ const r=pass.getBoundingClientRect(), px=(e.clientX-r.left)/r.width, py=(e.clientY-r.top)/r.height;
+  pass.style.transform=`rotateY(${(px-.5)*10}deg) rotateX(${(.5-py)*8}deg)`; });
+pass.addEventListener("pointerleave",()=>{ pass.style.transform=""; });
+
+/* title decrypts when the section scrolls in */
+const GLY="!<>-_\\/[]{}=+*^?#0123456789ABCDEF";
+function decrypt(el){ const txt=el.dataset.text; const n=txt.length; let f=0; const total=48;
+  const step=()=>{ f++; let out=""; for(let i=0;i<n;i++){ const c=txt[i]; const at=(i/n)*total*.7; if(c===" "||f>at+total*.3) out+=c===" "?" ":c.replace(/[&<>]/g,""); else out+=`<span class="s">${GLY[(Math.random()*GLY.length)|0].replace(/[&<>]/g,"#")}</span>`; }
+    el.innerHTML=out; if(f<total) requestAnimationFrame(step); else el.textContent=txt; };
+  step(); }
+const talkEl=$("#mTalk"); let decrypted=false;
+new IntersectionObserver(([en],o)=>{ if(en.isIntersecting && !decrypted){ decrypted=true; o.disconnect(); } },{threshold:.4}).observe(talkEl);
+
+/* background: a field of hex code; the pointer "decrypts" a circle of it and a scan line sweeps down */
+(()=>{ const cv=$("#cipher"), sec=$("#next"), c=cv.getContext("2d"), dp=Math.min(2,devicePixelRatio||1);
+  const MSG="PES UNIVERSITY · NAVIGATION FOR THE REAL WORLD · JAGO · PESU MOONSHOTS · ";
+  let w=0,h=0,cols=0,rows=0,cells=[],mx=-999,my=-999,vis=false; const CW=26, CH=22;
+  function size(){ w=sec.clientWidth; h=sec.clientHeight; cv.width=w*dp; cv.height=h*dp; c.setTransform(dp,0,0,dp,0,0);
+    cols=Math.ceil(w/CW)+1; rows=Math.ceil(h/CH)+1; cells=[]; for(let i=0;i<cols*rows;i++) cells.push({h:((Math.random()*256)|0).toString(16).toUpperCase().padStart(2,"0"),t:Math.random()*1e4}); }
+  sec.addEventListener("pointermove",e=>{ const r=sec.getBoundingClientRect(); mx=e.clientX-r.left; my=e.clientY-r.top; });
+  sec.addEventListener("pointerleave",()=>{ mx=my=-999; });
+  new IntersectionObserver(([en])=>{vis=en.isIntersecting;}).observe(sec);
+  const still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function draw(t){ if(vis){ c.clearRect(0,0,w,h); c.font="500 11px Roboto, system-ui, sans-serif"; c.textBaseline="top";
+      const scan=(t*0.06)%(h+200)-100;
+      for(let y=0;y<rows;y++) for(let x=0;x<cols;x++){ const cell=cells[y*cols+x], px=x*CW, py=y*CH;
+        if(!still && Math.random()<.002) cell.h=((Math.random()*256)|0).toString(16).toUpperCase().padStart(2,"0");
+        const d=Math.hypot(px-mx,py-my), near=d<150, sd=Math.abs(py-scan);
+        if(near){ const k=1-d/150; c.fillStyle=`rgba(255,131,0,${.25+.6*k})`; const ch=MSG[(x+y*(cols%MSG.length))%MSG.length]; if(ch!==" ") c.fillText(ch,px,py); }
+        else { const a=.072+(still?0:Math.max(0,.036-sd/4000)); c.fillStyle=`rgba(0,45,116,${a})`; c.fillText(cell.h,px,py); } } }
+    if(!still) requestAnimationFrame(draw); }
+  size(); addEventListener("resize",size); let lw=w,lh=h; new ResizeObserver(()=>{ if(sec.clientWidth!==lw||sec.clientHeight!==lh){ size(); lw=w; lh=h; if(still) draw(0); } }).observe(sec); requestAnimationFrame(draw); if(still){ vis=true; draw(0); }
+})();
+/* moon separator: one moon moves through its phases as the band scrolls past */
+(()=>{ const band=$("#moonBand"), cv=$("#moon"), c=cv.getContext("2d"), dp=Math.min(2,devicePixelRatio||1), S=180, R=Math.round((150/2-6)*1.2);
+  cv.width=S*dp; cv.height=S*dp; c.setTransform(dp,0,0,dp,0,0);
+  /* placeholder surface until the real moon image is added (img/moon.webp) */
+  const tex=document.createElement("canvas"); tex.width=tex.height=300; const t=tex.getContext("2d");
+  let g=t.createRadialGradient(130,120,20,150,150,150); g.addColorStop(0,"#e9e6df"); g.addColorStop(1,"#a9a69f"); t.fillStyle=g; t.fillRect(0,0,300,300);
+  let sd=7; const rnd=()=>{ sd=(sd*16807)%2147483647; return sd/2147483647; };
+  for(let i=0;i<9;i++){ t.fillStyle=`rgba(90,92,100,${.18+rnd()*.2})`; t.beginPath(); t.ellipse(40+rnd()*220,40+rnd()*220,20+rnd()*45,15+rnd()*35,rnd()*3,0,7); t.fill(); }
+  for(let i=0;i<70;i++){ const x=rnd()*300,y=rnd()*300,r=1+rnd()*6; t.strokeStyle="rgba(70,70,75,.35)"; t.lineWidth=1; t.beginPath(); t.arc(x,y,r,0,7); t.stroke(); t.fillStyle="rgba(255,255,255,.18)"; t.beginPath(); t.arc(x-r*.3,y-r*.3,r*.6,0,7); t.fill(); }
+  let src=tex; const img=new Image(); img.onload=()=>{ src=img; draw(last); if(typeof paintSmall==="function") paintSmall(); }; img.src="img/moon.webp";
+  let last=-1;
+  function paint(c,S,R,p,bl){ const cx=S/2, cy=S/2; c.clearRect(0,0,S,S);
+    const th=p*Math.PI, k=R*Math.cos(th);            /* p: 0 new moon, 1 full moon (waxing, lit from the right) */
+    c.save(); c.beginPath(); c.arc(cx,cy,R,0,7); c.clip();
+    const w=src.width, h=src.height, m=src===tex?0:Math.min(w,h)*.02; c.drawImage(src,m,m,w-2*m,h-2*m,cx-R,cy-R,2*R,2*R);
+    if(p<.999){ c.filter=`blur(${bl}px)`; c.fillStyle="#fff"; const E=R*1.35; c.beginPath(); c.moveTo(cx,cy-E);
+    c.arc(cx,cy,E,-Math.PI/2,Math.PI/2,true);
+    if(k>=0) c.ellipse(cx,cy,Math.max(.01,k),E,0,Math.PI/2,-Math.PI/2,true); else c.ellipse(cx,cy,-k,E,0,Math.PI/2,Math.PI*1.5,false);
+    c.fill(); c.filter="none"; } c.restore(); }
+  function draw(p){ last=p; paint(c,S,R,p,9); }
+  /* small moons on the five domain cards, each at its own phase */
+  const small=[...document.querySelectorAll(".dom-moon")].map(el=>{ const S2=88,R2=36; el.width=S2*dp; el.height=S2*dp; const x=el.getContext("2d"); x.setTransform(dp,0,0,dp,0,0); return {x,S2,R2,target:+el.dataset.p,p:0}; });
+  const paintSmall=()=>small.forEach(o=>paint(o.x,o.S2,o.R2,o.p,4));
+  const domGrid=$("#domains");
+  if(domGrid){ paintSmall(); new IntersectionObserver(([en],ob)=>{ if(!en.isIntersecting) return; ob.disconnect(); const t0=performance.now();
+      const step=now=>{ let done=true; small.forEach((o,i)=>{ const q=Math.min(1,Math.max(0,(now-t0-i*160)/1400)); o.p=o.target*(1-Math.pow(1-q,3)); if(q<1) done=false; }); paintSmall(); if(!done) requestAnimationFrame(step); };
+      requestAnimationFrame(step); },{threshold:.35}).observe(domGrid); }
+  const upd=()=>{ const r=band.getBoundingClientRect(), vh=innerHeight; let p=(vh-r.top)/(vh+r.height); p=Math.min(1,Math.max(0,(p-.12)/.76)); if(Math.abs(p-last)>.002) draw(p); };
+  addEventListener("scroll",upd,{passive:true}); addEventListener("resize",upd); draw(0); upd();
+})();
+/* about: "a few corridors away". The courtyard drawing reveals itself, then each lab lights up with a path from the courtyard */
+(()=>{ const court=$("#court"); if(!court) return;
+  const LAB=[["Healthcare Technologies","Dr. Gowri Srinivasa","Center for Pattern Recognition"],["Space Research & Innovation","Dr. Manikandan J","Director, CORI"],["Chips & Semiconductors","Prof. Sathya Prasad","PESU CIE"],["Cybersecurity, IoT & Drones","Prof. Prasad H B","Director, C-ISFCR & C-IOT"],["AI, Cloud Computing & Big Data","Dr. Shylaja S S","Director, CDSAML & CCBD"]];
+  const svg=court.querySelector(".court-dots"), card=$("#labCard"), rr=$("#revealRect"), lr=$("#litRect");
+  const dots=[...court.querySelectorAll(".lab-dot")], glows=[...court.querySelectorAll(".lab-glow")];
+  const still=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function reveal(){ const t0=performance.now(), D=still?1:1700;
+    const step=now=>{ const q=Math.min(1,(now-t0)/D), e=1-Math.pow(1-q,3); rr.setAttribute("y",1254*(1-e)); rr.setAttribute("height",1254*e);
+      const q2=Math.max(0,Math.min(1,(now-t0-D*.55)/(D*.9))), e2=q2<.5?2*q2*q2:1-Math.pow(-2*q2+2,2)/2; lr.setAttribute("y",1254*(1-e2)); lr.setAttribute("height",1254*e2);
+      if(q<1||q2<1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+  new IntersectionObserver(([en],o)=>{ if(en.isIntersecting){ o.disconnect(); reveal(); } },{threshold:.3}).observe(court);
+  function show(i){ dots.forEach((d,k)=>d.classList.toggle("on",k===i)); glows.forEach((g,k)=>g.classList.toggle("on",k===i));
+    if(i<0){ card.hidden=true; return; }
+    card.querySelector("b").textContent=LAB[i][0]; card.querySelector("span").textContent=LAB[i][1]+" · "+LAB[i][2]; card.hidden=false; }
+  const go=i=>{ const c=document.querySelectorAll(".domain-card")[i]; if(!c) return; c.scrollIntoView({behavior:"smooth",block:"center"}); c.animate([{boxShadow:"0 0 0 0 rgba(255,131,0,0)"},{boxShadow:"0 0 0 4px rgba(255,131,0,.55)"},{boxShadow:"0 0 0 0 rgba(255,131,0,0)"}],{duration:1400,delay:500}); };
+  dots.forEach((d,i)=>{ d.addEventListener("pointerenter",()=>show(i)); d.addEventListener("focus",()=>show(i)); d.addEventListener("blur",()=>show(-1));
+    d.addEventListener("click",e=>{ if(e.pointerType==="touch"&&!d.classList.contains("on")){ show(i); return; } go(i); });
+    d.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(i); } }); });
+  svg.addEventListener("pointerleave",()=>show(-1));
+})();
+function renderLog(f){ $("#log").innerHTML=LOG.filter(x=>f==="all"||x.d===f).map(x=>`<article><span class="num">Keynote ${x.n} · ${x.m}</span><h3>${x.t}</h3><span class="domain">${x.d}</span><p class="takeaway">${x.k}</p><a href="#keynotes">Watch recording →</a></article>`).join(""); }
+renderLog("all");
+$("#filters").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll("#filters button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderLog(b.dataset.f);});
+$("#pos").innerHTML=POS.map(p=>`<div class="pos"><div><h3>${p.t}</h3><p>${p.l}</p></div><div class="skills">${p.s.map(s=>`<span>${s}</span>`).join("")}</div><a class="btn btn-line" href="#involve">How to apply</a></div>`).join("");
+$("#remind").addEventListener("submit",e=>{e.preventDefault();const v=$("#email").value.trim();$("#remindNote").textContent=/^\S+@\S+\.\S+$/.test(v)?"Thanks. In the real site this will add you to the reminder list.":"Enter an email address like name@pes.edu.";});
+$("#suggest").addEventListener("submit",e=>{e.preventDefault();const v=$("#idea").value.trim();$("#suggestNote").textContent=v?"Got it. In the real site this will go to the Moonshots team.":"Type a speaker name or a topic first.";});
+
+/* ---------- scene geometry ---------- */
+const hero=$("#hero"), stage=$("#stage"), rstage=$("#rocketStage");
+const SW=1672, SH=941; let W=0,H=0,u=1;
+const canvas=$("#stars"), ctx=canvas.getContext("2d"), dpr=Math.min(2,window.devicePixelRatio||1);
+function layout(){
+  W=hero.clientWidth; H=hero.clientHeight;
+  const sw = W>=H ? Math.max(W,900) : W*1.3; u=sw/SW;
+  const lift = W<H ? Math.min(110,H*.12) : 0; // raise the campus above the scroll hint on tall phones
+  for(const s of [stage,rstage]){ s.style.width=sw+"px"; s.style.height=(sw*SH/SW)+"px"; s.style.left=((W-sw)/2)+"px"; s.style.bottom=lift+"px"; }
+  hero.style.setProperty("--u",u);
+  canvas.width=W*dpr; canvas.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+/* outline traced from the lit campus image (image pixels), drawn bottom to top */
+const CYAN=[[332,853,1325,853],[384,853,384,790],[960,850,960,716],[384,790,978,720],[810,853,810,808],[810,808,915,808],[915,808,915,853],
+  [579,717,579,683],[578,717,968,635],[579,683,902,605],[971,688,1091,723],[956,634,1184,711],[896,605,965,627],[849,617,933,640],[848,658,955,634],
+  [357,715,357,659],[357,715,610,652],[357,688,609,617],[357,659,615,576],[605,616,738,647],[600,575,819,627],[991,825,1220,822]];
+const GATE=[[1036,821,1036,735],[1036,735,1242,712],[1242,712,1242,822],[1036,747,1222,727],[1222,727,1222,822]];
+const NS="http://www.w3.org/2000/svg", svg=$("#outline"), lines=[];
+for(const [arr,cls] of [[CYAN,""],[GATE,"gate"]]) for(const [x1,y1,x2,y2] of arr){
+  const l=document.createElementNS(NS,"line"); [["x1",x1],["y1",y1],["x2",x2],["y2",y2]].forEach(([k,v])=>l.setAttribute(k,v));
+  if(cls) l.setAttribute("class",cls); const len=Math.hypot(x2-x1,y2-y1); l.style.strokeDasharray=len; l.style.strokeDashoffset=len; svg.appendChild(l); lines.push(l);
+}
+
+/* ---------- canvas: stars, warp, sparks, comets ---------- */
+const small=Math.min(window.innerWidth,window.innerHeight)<600;
+const STARS=[...Array(small?140:260)].map(()=>({x:Math.random(),y:Math.random(),z:.25+Math.random()*.75,r:Math.random()*1.3+.3,
+  c:Math.random()<.18?"69,240,255":Math.random()<.12?"190,150,255":"255,255,255",p:Math.random()*6.28,sp:.6+Math.random()*1.6}));
+const S={alpha:0,cam:0,warp:0,sparks:0,mx:0,my:0};
+let parts=[],comets=[],lastComet=0,running=true,done=false;
+/* roofline of the campus (image pixels): sparks rise from behind its whole length */
+const ROOF=[[340,700],[357,659],[615,576],[819,627],[960,634],[1184,711],[1240,712],[1320,770]];
+function roofPoint(){ const r=rstage.getBoundingClientRect(), h=hero.getBoundingClientRect(); const x=ROOF[0][0]+Math.random()*(ROOF[ROOF.length-1][0]-ROOF[0][0]);
+  let y=ROOF[0][1]; for(let i=1;i<ROOF.length;i++){ const [x0,y0]=ROOF[i-1],[x1,y1]=ROOF[i]; if(x<=x1){ y=y0+(y1-y0)*(x-x0)/(x1-x0); break; } }
+  return {x:r.left-h.left+x*u, y:r.top-h.top+(y+14)*u}; }
+function frame(t){
+  if(running){
+    ctx.clearRect(0,0,W,H); const cx=W/2, cy=H*.42;
+    for(const s of STARS){
+      const x=s.x*W+S.mx*14*s.z, y=((s.y*H+S.cam*H*.45*s.z)%H+H)%H+S.my*10*s.z, tw=.55+.45*Math.sin(t/1000*s.sp+s.p);
+      ctx.globalAlpha=S.alpha*tw;
+      if(S.warp>.02){ const dx=x-cx,dy=y-cy,d=Math.hypot(dx,dy)||1,L=S.warp*s.z*Math.min(260,d*.9);
+        ctx.strokeStyle=`rgb(${s.c})`; ctx.lineWidth=s.r*1.2; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+dx/d*L,y+dy/d*L); ctx.stroke(); }
+      else { ctx.fillStyle=`rgb(${s.c})`; ctx.beginPath(); ctx.arc(x,y,s.r,0,6.283); ctx.fill(); }
+    }
+    if(S.sparks>.05 && parts.length<(small?50:110) && Math.random()<.8){ const p=roofPoint(); parts.push({x:p.x,y:p.y,vx:(Math.random()-.5)*.3,vy:-(.35+Math.random()*.9),life:S.sparks*(.35+Math.random()*.3),c:Math.random()<.6?"255,160,80":"120,230,255"}); }
+    parts=parts.filter(p=>p.life>0);
+    for(const p of parts){ p.x+=p.vx; p.y+=p.vy; p.life-=.006; ctx.globalAlpha=Math.max(0,p.life); ctx.fillStyle=`rgb(${p.c})`; ctx.fillRect(p.x,p.y,1.5,1.5); }
+    if(t>lastComet){ lastComet=t+(done?900:1600)+Math.random()*(done?1600:2400); const sp=5+Math.random()*5; comets.push({x:Math.random()*W*.8-W*.1,y:Math.random()*H*.45,vx:sp,vy:sp*(.25+Math.random()*.35),life:1}); }
+    comets=comets.filter(c=>c.life>0);
+    for(const c of comets){ c.x+=c.vx; c.y+=c.vy; c.life-=.009; const gr=ctx.createLinearGradient(c.x,c.y,c.x-c.vx*26,c.y-c.vy*26);
+      gr.addColorStop(0,`rgba(220,250,255,${c.life})`); gr.addColorStop(1,"rgba(69,240,255,0)"); ctx.globalAlpha=1; ctx.strokeStyle=gr; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(c.x,c.y); ctx.lineTo(c.x-c.vx*26,c.y-c.vy*26); ctx.stroke(); }
+    ctx.globalAlpha=1;
+  }
+  requestAnimationFrame(frame);
+}
+new IntersectionObserver(([en])=>{running=en.isIntersecting;}).observe(hero);
+
+layout(); requestAnimationFrame(frame);
+
+if(typeof gsap==="undefined" || typeof ScrollTrigger==="undefined"){
+  // fallback: show the finished header
+  S.alpha=.55; ["#title","#tagline","#ctas"].forEach(s=>$(s).style.opacity=1); $("#nebula").style.opacity=.3; $("#hint").hidden=true; return;
+}
+gsap.registerPlugin(ScrollTrigger);
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* resting frame: stars and the dark campus fade in on load */
+gsap.set("#planet",{yPercent:100}); gsap.set(".exhaust",{scaleY:.2}); const L={v:100}, litEl=$("#lit"), applyLit=()=>{litEl.style.clipPath=`inset(${L.v}% 0% 0% 0%)`;};
+gsap.to(S,{alpha:.55,duration:1.2}); gsap.to("#starsImg",{opacity:.35,duration:1.2});
+gsap.fromTo("#unlit",{opacity:0},{opacity:1,duration:1.2,delay:.2});
+
+/* scroll-driven timeline */
+const tl=gsap.timeline({defaults:{ease:"none"}});
+// 1. ignition: outline draws, hint fades
+tl.to("#hint",{opacity:0,duration:.4},0)
+  .to(lines,{strokeDashoffset:0,duration:.5,stagger:.06,ease:"power1.inOut"},0);
+// 2. windows light floor by floor (see STEPS), glow builds behind the building
+tl.to("#behindGlow",{opacity:.7,duration:.55,ease:"power2.in"},3.55)
+  .to(S,{sparks:1,duration:.3},3.65)
+  .fromTo("#outline .gate",{strokeWidth:2.4},{strokeWidth:6,duration:.2,yoyo:true,repeat:1},3.55)
+  .to("#exB",{opacity:.95,scaleY:.6,duration:.4},3.6);
+// 3. liftoff from behind the building
+tl.to("#rig",{y:()=>-u*560-H*2.9,duration:3.5,ease:"power2.in"},4.1)
+  .to("#exB",{scaleY:1,duration:.5},4.1)
+  .to("#behindGlow",{opacity:.3,duration:.8},4.6)
+  .to(S,{sparks:0,duration:.4},4.9)
+  .to("#outline",{opacity:.35,duration:.8},4.4)
+  .fromTo("#exB",{opacity:.95},{opacity:0,duration:1,ease:"sine.inOut",immediateRender:false},5.0)
+  .fromTo("#exA",{opacity:0,scaleY:1},{opacity:1,scaleY:1,duration:1,ease:"sine.inOut",immediateRender:false},5.0);
+// camera tilts up and follows the rocket
+tl.to(stage,{y:()=>H*1.05,duration:1.6,ease:"power2.in"},5.2)
+  .to("#rocketStage",{y:()=>H*1.05,duration:1.6,ease:"power2.in"},5.2)
+  .to(S,{cam:1,duration:1.8,ease:"power2.in"},5.2)
+  .to("#starsImg",{y:()=>H*.12,duration:1.8,ease:"power2.in"},5.2);
+// 4. into orbit: warp, nebula, planet
+tl.to(S,{warp:1,duration:.5,ease:"power2.in"},6.8).to(S,{warp:0,duration:.5,ease:"power2.out"},7.3)
+  .fromTo("#nebula",{opacity:0,scale:.6},{opacity:.95,scale:1.8,duration:.8,ease:"power2.in"},6.7)
+  .to("#nebula",{opacity:.3,duration:.8,ease:"power2.out"},7.5)
+  .to("#planet",{yPercent:0,duration:1.4,ease:"power3.out"},7.1);
+// 5. reveal: title flickers on, tagline and buttons
+tl.to("#title",{keyframes:[{opacity:1,duration:.08},{opacity:.15,duration:.06},{opacity:1,duration:.08},{opacity:.3,duration:.05},{opacity:1,duration:.1}]},8.1)
+  .fromTo("#tagline",{opacity:0,y:14},{opacity:1,y:0,duration:.5},8.6)
+  .fromTo("#ctas",{opacity:0,y:14},{opacity:1,y:0,duration:.5},8.9)
+  .to({}, {duration:.6},9.4);
+
+/* windows light floor by floor, computed straight from the timeline position */
+/* one continuous wipe from the ground line (91%) to just above the roof (58%); beyond that is empty sky */
+function litAt(t){ const t0=2.0, t1=3.9; if(t<=t0) return 100; if(t>=t1) return 0; const k=(t-t0)/(t1-t0), e=.5-.5*Math.cos(Math.PI*k); return 91-(91-58)*e; }
+tl.eventCallback("onUpdate",()=>{ L.v=litAt(tl.time()); applyLit(); }); applyLit();
+
+ScrollTrigger.create({trigger:hero,start:"top top",end:()=>"+="+Math.round(H*3.6),pin:true,scrub:reduce?true:.7,animation:tl,
+  invalidateOnRefresh:true,onUpdate:self=>{done=self.progress>.98;}});
+
+hero.addEventListener("pointermove",e=>{const r=hero.getBoundingClientRect();
+  gsap.to(S,{mx:(e.clientX-r.left)/r.width*2-1,my:(e.clientY-r.top)/r.height*2-1,duration:1.2,ease:"power2.out",overwrite:"auto"});});
+ScrollTrigger.addEventListener("refreshInit",layout);
+window.addEventListener("resize",()=>ScrollTrigger.refresh());
+/* site menu slides in once the launch has finished and the content starts */
+const nav=$("#siteNav");
+ScrollTrigger.create({trigger:"main",start:"top 85%",onEnter:()=>nav.classList.add("show"),onLeaveBack:()=>{nav.classList.remove("show","open");}});
+$("#menuBtn").addEventListener("click",()=>{const o=nav.classList.toggle("open");$("#menuBtn").setAttribute("aria-expanded",o);});
+
+})();
+</script>
+</body></html>
