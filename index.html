@@ -28,7 +28,7 @@ a{color:inherit}
 .layer{position:absolute;pointer-events:none}
 #starsImg{inset:-4%;width:108%;height:108%;max-width:none;object-fit:cover;opacity:0}
 #stars{inset:0;width:100%;height:100%}
-#nebula{inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+#nebula{inset:0;width:100%;height:100%;object-fit:cover;opacity:0;-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,rgba(0,0,0,.6) 60%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 30%,rgba(0,0,0,.6) 60%,transparent 100%)}
 #planet{left:calc(50% - max(50%,450px));bottom:0;width:max(100%,900px)}
 #planet img{display:block;width:100%;max-width:none}
 .stage{position:absolute;bottom:0}
@@ -86,7 +86,12 @@ section + section{border-top:1px solid var(--rule)}
 .next-sec .wrap{position:relative}
 /* about moonshots */
 .about{background:var(--paper)}
-.about + section{border-top:0}
+.about + section{border-top:0;padding-top:clamp(24px,3vw,40px)}
+.about{padding-bottom:clamp(24px,3vw,40px)}
+section#positions{border-top:0;padding-top:clamp(24px,3vw,40px)}
+section#keynotes{padding-bottom:clamp(24px,3vw,40px)}
+section#involve{border-top:0;padding-top:clamp(24px,3vw,40px)}
+section#positions{padding-bottom:clamp(24px,3vw,40px)}
 .about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(32px,6vw,80px);align-items:start}
 .about h2{margin:0;font-size:clamp(32px,4.4vw,52px);font-weight:900;line-height:1.04;letter-spacing:-.015em;color:var(--navy,#002D74);text-wrap:balance}
 .about .lead{font-size:clamp(17px,1.5vw,19px);color:var(--ink);margin:20px 0 0;max-width:58ch}
@@ -121,6 +126,11 @@ section + section{border-top:1px solid var(--rule)}
 .lab-card em{display:block;margin-top:6px;font-style:normal;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#aab4e6}
 .court figcaption{margin-top:4px;text-align:center;font-size:13px;color:var(--muted)}
 .court figcaption b{color:#002D74}
+.dom-hero{position:relative;margin:-18px -18px 2px;aspect-ratio:4/3;overflow:hidden;border-radius:17px 17px 0 0;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 50%,transparent 96%);mask-image:linear-gradient(180deg,#000 0%,#000 50%,transparent 96%)}
+.dom-hero img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.domain-card:hover .dom-hero img{transform:scale(1.06)}
+.domain-card{overflow:hidden}
+.domain-card .ph{z-index:2;background:rgba(238,240,245,.92)}
 .dom-art{display:block;width:83px;height:83px;margin:-4px 0 12px -6px;transition:transform .35s ease}
 .dom-art:not([src*="dom-space"]){padding:12.5px}
 .domain-card:hover .dom-art{transform:translateY(-3px) scale(1.04)}
@@ -132,8 +142,11 @@ section + section{border-top:1px solid var(--rule)}
 .pillars svg .f{fill:currentColor;stroke:none}
 .pillars svg .o.f{fill:var(--orange,#FF8300)}
 .pillars svg circle.f:not(.o){fill:#002D74}
-.pillars{list-style:none;padding:0;margin:44px 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.pillars li{border-top:2px solid #002D74;padding-top:18px}
+.pillars-intro{margin:40px 0 0;max-width:none;font-size:clamp(17px,1.5vw,19px);line-height:1.6;color:var(--ink)}
+.pillars{list-style:none;padding:0;margin:56px 0 0;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pillars li{position:relative;border-top:2px solid #002D74;padding-top:18px}
+.pillars li::before{content:"";position:absolute;left:0;right:0;top:-2px;height:2px;background:#FF8300;transform:scaleX(0);transform-origin:left center;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.pillars li:hover::before{transform:scaleX(1)}
 .pillars b{display:block;font-size:17px;color:#002D74}
 .pillars span{display:block;margin-top:4px;font-size:14px;color:var(--muted);line-height:1.45}
 .dom-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin:72px 0 22px;flex-wrap:wrap}
@@ -146,7 +159,12 @@ section + section{border-top:1px solid var(--rule)}
 .domain-card h4{margin:0;font-size:17px;line-height:1.25;color:#002D74;font-weight:700}
 .domain-card .lead-name{margin:10px 0 0;font-size:13px;color:var(--muted);line-height:1.4}
 .domain-card .lead-name b{display:block;color:var(--ink);font-weight:700;font-size:14px}
-.domain-card .ph{position:absolute;top:18px;right:18px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9aa3bd}
+.domain-card .ph{position:absolute;top:16px;right:16px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#eef0f5;color:#6b7591;font-size:11px;font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.domain-card{display:flex;flex-direction:column}
+.dom-more{margin-top:auto;padding-top:16px;display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:700;color:#002D74;text-decoration:none;align-self:flex-start}
+.dom-more svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s ease}
+.dom-more:hover{color:var(--orange-deep,#e07000)}
+.dom-more:hover svg,.domain-card:hover .dom-more svg{transform:translateX(3px)}
 @media (max-width:1000px){.about-grid{grid-template-columns:1fr}.court{position:static;max-width:520px;margin:0 auto}.pillars{grid-template-columns:1fr 1fr}.domains{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:520px){.domains{grid-template-columns:1fr}.facts strong{font-size:24px}}
 /* moon separator band */
@@ -169,9 +187,9 @@ section + section{border-top:1px solid var(--rule)}
 .talk .s{color:var(--orange)}
 .abstract{margin:20px 0 0;font-size:18px;color:var(--muted);max-width:56ch}
 .takeaways{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:10px;max-width:56ch}
-.takeaways li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:baseline;font-size:16px}
-.takeaways b{font-size:12px;font-weight:700;color:var(--orange-deep);letter-spacing:.08em;font-variant-numeric:tabular-nums}
-.speaker{display:flex;gap:14px;align-items:center;margin-top:28px;padding-top:22px;border-top:1px dashed #cfd5ea;max-width:56ch}
+.takeaways li{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:center;font-size:16px}
+.takeaways b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#FF8300;color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.speaker{display:flex;gap:14px;align-items:center;margin-top:30px;max-width:56ch}
 .avatar{flex:none;width:72px;height:72px;border-radius:50%;object-fit:cover;background:#fff;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--orange)}
 .speaker p{margin:0}
 .speaker .name{font-weight:700;font-size:17px}
@@ -225,6 +243,7 @@ section + section{border-top:1px solid var(--rule)}
 .log article:hover{transform:translateY(-4px);box-shadow:0 18px 40px -24px rgba(40,20,90,.35)}
 .log .num{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange-deep);font-weight:700}
 .log h3{margin:0;font-size:19px;line-height:1.3;text-wrap:balance}
+.log .spk{margin:-4px 0 0;font-size:14px;font-weight:700;color:#002D74}
 .log .takeaway{margin:0;font-size:15px;color:var(--muted)}
 .log .domain{align-self:flex-start;font-size:12px;color:var(--ink);background:#ecebf5;border-radius:999px;padding:3px 10px}
 .log a{margin-top:auto;font-size:14px;font-weight:500;color:var(--orange-deep);text-decoration:none}
@@ -247,8 +266,20 @@ section + section{border-top:1px solid var(--rule)}
 .field input:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,122,26,.2)}
 .field .btn{box-shadow:none}
 .note{font-size:14px;color:var(--orange-deep);margin:12px 0 0;min-height:1.4em}
-footer{background:var(--paper);padding-block:36px;color:var(--muted);font-size:14px;border-top:1px solid var(--rule)}
-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+.site-footer{background:#14357a;color:#fff;padding-block:clamp(48px,5vw,64px) clamp(40px,4vw,56px);font-size:16px}
+.fgrid{display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr;gap:0}
+.fcontact{padding-right:32px}
+.fcopy{margin-top:clamp(36px,4vw,52px);padding-top:22px;border-top:1px solid rgba(255,255,255,.18);font-size:15px;font-weight:300;color:rgba(255,255,255,.8)}
+.fcontact p{margin:0 0 26px;font-size:clamp(16px,1.3vw,19px);line-height:1.6;font-weight:300}
+.fcontact b{font-weight:700}
+.site-footer a{color:inherit;text-decoration:none}
+.site-footer a:hover{color:#FF8300}
+.fcol{border-left:1px solid rgba(255,255,255,.18);padding:0 20px}
+.fcol h3{margin:0 0 22px;padding-bottom:14px;border-bottom:2px solid #0a1f4d;font-size:clamp(18px,1.5vw,21px);font-weight:700}
+.fcol ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.fcol li{font-size:15px;font-weight:300}
+@media (max-width:900px){.fgrid{grid-template-columns:1fr 1fr;row-gap:36px}.fcol:nth-child(3){border-left:0;padding-left:0}}
+@media (max-width:560px){.fgrid{grid-template-columns:1fr}.fcol{border-left:0;padding-left:0}}
 
 
 /* ---------- SITE MENU (matches pes.edu) ---------- */
@@ -382,11 +413,9 @@ main section{scroll-margin-top:90px}
     <div class="wrap">
       <div class="about-grid">
         <div>
-          <p class="kicker">About Moonshots</p>
-          <h2>Big research questions, one keynote at a time.</h2>
-          <p class="lead">Moonshots is PES University's monthly invitation to step inside the work that's shaping what comes next. Every month, a professor who leads one of our research areas takes the stage to open up their lab: the questions keeping them up at night, the problems they're racing to solve, and the breakthroughs still taking shape.</p>
+                    <h2>Big research questions, one keynote at a time.</h2>
+          <p class="lead">Moonshots is PES University's invitation to step inside the work that's shaping what comes next. Every month, a professor who leads one of our research areas takes the stage to open up their lab: the questions keeping them up at night, the problems they're racing to solve, and the breakthroughs still taking shape.</p>
           <p class="body">It isn't a lecture. It's a look behind the curtain at research in motion, from early experiments and unexpected failures to the ideas that could change an industry. Most importantly, every session ends with an open door: real, concrete ways for students to join the work, whether that's a research assistantship, a project team, or a seat at the lab bench.</p>
-          <p class="body">Moonshots exists to close the gap between curiosity and contribution. Some of the most important research at PES is happening a few corridors away, and we want every student and faculty member to know it's there, and that they're welcome in it.</p>
           <p class="signoff">Aim high. Get involved. <span>Take your shot.</span></p>
         </div>
         <figure class="court" id="court">
@@ -410,13 +439,14 @@ main section{scroll-margin-top:90px}
         <li><span class="pi"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 35V6h17v29"/><path d="M5 35h30"/><path class="o" d="M26 8l7 3v24l-7-2"/><circle cx="21.5" cy="21" r="1.4" class="f"/></svg></span><b>Open positions</b><span>Research assistant, internship and PhD openings in the lab.</span></li>
         <li><span class="pi"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 6v28h28"/><path class="o" d="M11 27l7-8 5 5 9-11"/><path class="o" d="M26 13h6v6"/></svg></span><b>Trends</b><span>Where the field is heading, and what to learn to get there.</span></li>
       </ul>
-      <div class="dom-head"><h3>The five moonshots</h3><p>Every keynote comes from one of five research domains, each led by a PES professor.</p></div>
+      <p class="pillars-intro">Moonshots exists to close the gap between curiosity and contribution. Some of the most important research at PES is happening a few corridors away, and we want every student and faculty member to know it's there, and that they're welcome in it.</p>
+      <div class="dom-head"><h3>The five moonshots</h3></div>
       <div class="domains" id="domains">
-        <article class="domain-card"><span class="ph">01</span><img class="dom-art" src="img/dom-health.webp" alt="" width="104" height="104" loading="lazy"><h4>Healthcare Technologies</h4><p class="lead-name"><b>Dr. Gowri Srinivasa</b>Center for Pattern Recognition</p></article>
-        <article class="domain-card"><span class="ph">02</span><img class="dom-art" src="img/dom-space.webp" alt="" width="104" height="104" loading="lazy"><h4>Space Research &amp; Innovation</h4><p class="lead-name"><b>Dr. Manikandan J</b>Director, CORI</p></article>
-        <article class="domain-card"><span class="ph">03</span><img class="dom-art" src="img/dom-chips.webp" alt="" width="104" height="104" loading="lazy"><h4>Chips &amp; Semiconductors</h4><p class="lead-name"><b>Prof. Sathya Prasad</b>PESU CIE</p></article>
-        <article class="domain-card"><span class="ph">04</span><img class="dom-art" src="img/dom-cyber.webp" alt="" width="104" height="104" loading="lazy"><h4>Cybersecurity, IoT &amp; Drones</h4><p class="lead-name"><b>Prof. Prasad H B</b>Director, C-ISFCR &amp; C-IOT</p></article>
-        <article class="domain-card"><span class="ph">05</span><img class="dom-art" src="img/dom-ai.webp" alt="" width="104" height="104" loading="lazy"><h4>AI, Cloud Computing &amp; Big Data</h4><p class="lead-name"><b>Dr. Shylaja S S</b>Director, CDSAML &amp; CCBD</p></article>
+        <article class="domain-card"><span class="ph">01</span><div class="dom-hero" aria-hidden="true"><img src="img/card-health.webp" alt="" loading="lazy"></div><h4>Healthcare Technologies</h4><p class="lead-name"><b>Dr. Gowri Srinivasa</b>Center for Pattern Recognition</p><a class="dom-more" href="#" onclick="return false">Read more<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a></article>
+        <article class="domain-card"><span class="ph">02</span><div class="dom-hero" aria-hidden="true"><img src="img/card-space.webp" alt="" loading="lazy"></div><h4>Space Research &amp; Innovation</h4><p class="lead-name"><b>Dr. Manikandan J</b>Director, CORI</p><a class="dom-more" href="#" onclick="return false">Read more<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a></article>
+        <article class="domain-card"><span class="ph">03</span><div class="dom-hero" aria-hidden="true"><img src="img/card-chips.webp" alt="" loading="lazy"></div><h4>Chips &amp; Semiconductors</h4><p class="lead-name"><b>Prof. Sathya Prasad</b>PESU CIE</p><a class="dom-more" href="#" onclick="return false">Read more<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a></article>
+        <article class="domain-card"><span class="ph">04</span><div class="dom-hero" aria-hidden="true"><img src="img/card-cyber.webp" alt="" loading="lazy"></div><h4>Cybersecurity, IoT &amp; Drones</h4><p class="lead-name"><b>Prof. Prasad H B</b>Director, C-ISFCR &amp; C-IOT</p><a class="dom-more" href="#" onclick="return false">Read more<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a></article>
+        <article class="domain-card"><span class="ph">05</span><div class="dom-hero" aria-hidden="true"><img src="img/card-ai.webp" alt="" loading="lazy"></div><h4>AI, Cloud Computing &amp; Big Data</h4><p class="lead-name"><b>Dr. Shylaja S S</b>Director, CDSAML &amp; CCBD</p><a class="dom-more" href="#" onclick="return false">Read more<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg></a></article>
       </div>
     </div>
   </section>
@@ -424,15 +454,16 @@ main section{scroll-margin-top:90px}
   <section id="keynotes">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="kicker">Keynote archive</p><h2>Past keynotes</h2><p>Every talk so far, with the recording, slides and one takeaway. Filter by research area.</p></div>
+        <div><h2>Past keynotes</h2><p>Every talk so far, with the recording, slides and one takeaway.</p></div>
 
       </div>
       <div class="filters" id="filters" role="group" aria-label="Filter by research area">
         <button type="button" aria-pressed="true" data-f="all">All</button>
-        <button type="button" aria-pressed="false" data-f="AI">AI</button>
-        <button type="button" aria-pressed="false" data-f="Biotech">Biotech</button>
-        <button type="button" aria-pressed="false" data-f="Space">Space</button>
-        <button type="button" aria-pressed="false" data-f="Energy">Energy</button>
+        <button type="button" aria-pressed="false" data-f="health">Healthcare</button>
+        <button type="button" aria-pressed="false" data-f="space">Space</button>
+        <button type="button" aria-pressed="false" data-f="chips">Chips</button>
+        <button type="button" aria-pressed="false" data-f="cyber">Cybersecurity</button>
+        <button type="button" aria-pressed="false" data-f="ai">AI &amp; Cloud</button>
       </div>
       <div class="log" id="log"></div>
     </div>
@@ -441,7 +472,7 @@ main section{scroll-margin-top:90px}
   <section id="positions">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="kicker">Open positions</p><h2>Join a lab</h2><p>Research assistant, internship and PhD openings mentioned in the keynotes.</p></div>
+        <div><h2>Join a lab</h2><p>Research assistant, internship and PhD openings mentioned in the keynotes.</p></div>
 
       </div>
       <div class="positions" id="pos"></div>
@@ -450,7 +481,7 @@ main section{scroll-margin-top:90px}
 
   <section id="involve">
     <div class="wrap">
-      <div class="sec-head"><div><p class="kicker">Get involved</p><h2>Don't miss a launch</h2></div></div>
+      <div class="sec-head"><div><h2>Don't miss a launch</h2></div></div>
       <div class="involve">
         <form class="box" id="remind" novalidate>
           <h3>Get keynote reminders</h3>
@@ -474,7 +505,14 @@ main section{scroll-margin-top:90px}
     </div>
   </section>
 </main>
-<footer><div class="wrap"><span>PESU Moonshots</span><span>Prototype · forms are not connected yet</span></div></footer>
+<footer class="site-footer"><div class="wrap fgrid">
+  <div class="fcontact">
+    <p>100 Feet Ring Road,<br>BSK III Stage,<br>Bangalore-560085</p>
+    <p><a href="tel:+918026721983">+91 80 26721983</a><br><a href="tel:+918026722108">+91 80 26722108</a></p>
+    <p><b>For Admissions</b><br><a href="tel:08010297297">080-10-297297</a><br><a href="mailto:admissions@pes.edu">admissions@pes.edu</a></p>
+  </div>
+  <nav class="fcol" aria-label="Information For"><h3>Information For</h3><ul><li><a href="#">About Us</a></li><li><a href="#">The PES Way</a></li><li><a href="#">Leadership</a></li><li><a href="#">Infrastructure</a></li><li><a href="#">Faculty</a></li><li><a href="#">Giving to PES</a></li><li><a href="#">Jobs</a></li><li><a href="#">PES News</a></li><li><a href="#">Events &amp; Activities</a></li><li><a href="#">Terms &amp; Conditions</a></li><li><a href="#">Public Self Disclosure</a></li></ul></nav><nav class="fcol" aria-label="Information About"><h3>Information About</h3><ul><li><a href="#">PESU Programs</a></li><li><a href="#">Admissions</a></li><li><a href="#">PES Entrance Process</a></li><li><a href="#">Research</a></li><li><a href="#">Sports</a></li><li><a href="#">Clubs &amp; Activities</a></li><li><a href="#">Alumni</a></li><li><a href="#">Libraries</a></li><li><a href="#">Calendar of Events</a></li></ul></nav><nav class="fcol" aria-label="Important Info"><h3>Important Info</h3><ul><li><a href="#">UGC Proforma</a></li><li><a href="#">PESU Status Notification From UGC</a></li><li><a href="#">NIRF</a></li><li><a href="#">PES University Act</a></li><li><a href="#">CVL NAD</a></li><li><a href="#">IQAC</a></li><li><a href="#">NAD</a></li><li><a href="#">Internal Committee</a></li><li><a href="#">Anti Ragging</a></li><li><a href="#">Grievances Redressal Comittee</a></li><li><a href="#">Student Grievances</a></li></ul></nav>
+</div><div class="wrap fcopy">© 2026 PES University</div></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -482,13 +520,14 @@ main section{scroll-margin-top:90px}
 (() => {
 /* ---------- data (sample) ---------- */
 const NEXT = { num:"07", talk:"Zero trust at the edge: securing drones and IoT swarms", start:"2026-12-11T16:00:00+05:30", end:"2026-12-11T17:30:00+05:30", venue:"GJBC Audi 2A, PES University, RR Campus" };
+const DOM={health:"Healthcare Technologies",space:"Space Research & Innovation",chips:"Chips & Semiconductors",cyber:"Cybersecurity, IoT & Drones",ai:"AI, Cloud Computing & Big Data"};
 const LOG = [
-  {n:"06",d:"Space",t:"Building CubeSats on a student budget",m:"Nov 2026",k:"Off-the-shelf parts got a 1U satellite to flight readiness in 14 months."},
-  {n:"05",d:"AI",t:"Small language models for Indian languages",m:"Oct 2026",k:"Careful data beats model size for low-resource languages."},
-  {n:"04",d:"Biotech",t:"Lab-on-a-chip diagnostics for rural clinics",m:"Sep 2026",k:"Paper microfluidics can bring a blood test under ₹50."},
-  {n:"03",d:"Energy",t:"Sodium-ion batteries for two-wheelers",m:"Aug 2026",k:"Cheaper cells that hold up in Bengaluru summers."},
-  {n:"02",d:"AI",t:"Robots that learn from one demonstration",m:"Jul 2026",k:"Imitation learning is moving from labs to shop floors."},
-  {n:"01",d:"Space",t:"Reading the ionosphere with GNSS signals",m:"Jun 2026",k:"Everyday GPS receivers double as space-weather sensors."}
+  {n:"06",d:"ai",sp:"Dr. Shylaja S S",t:"Small language models for Indian languages",m:"Nov 2026",k:"Careful data curation beats sheer model size for low-resource languages."},
+  {n:"05",d:"chips",sp:"Prof. Sathya Prasad",t:"Designing India's next generation of chips",m:"Oct 2026",k:"Open-source chip design tools are lowering the barrier for student tape-outs."},
+  {n:"04",d:"space",sp:"Dr. Manikandan J",t:"Building nanosatellites on a student budget",m:"Sep 2026",k:"Off-the-shelf parts took a student satellite to flight readiness in 14 months."},
+  {n:"03",d:"health",sp:"Dr. Gowri Srinivasa",t:"Pattern recognition in medical images",m:"Aug 2026",k:"AI can flag early signs in scans, but clinicians still make the call."},
+  {n:"02",d:"cyber",sp:"Prof. Prasad H B",t:"Securing the connected campus",m:"Jul 2026",k:"Most IoT breaches start with default passwords, not clever exploits."},
+  {n:"01",d:"ai",sp:"Dr. Shylaja S S",t:"Big data in the cloud: from campus to industry",m:"Jun 2026",k:"Students who learn cloud data pipelines early land industry projects faster."}
 ];
 const POS = [
   {t:"Research assistant, satellite navigation",l:"Space systems lab · 6 months",s:["Python","Signal processing","Kalman filters"]},
@@ -505,7 +544,7 @@ $("#pMon").textContent=start.toLocaleString("en-IN",{...IST,month:"short"});
 $("#pWeek").textContent=start.toLocaleString("en-IN",{...IST,weekday:"long"})+", "+start.toLocaleString("en-IN",{...IST,year:"numeric"});
 $("#pTime").textContent=start.toLocaleString("en-US",{...IST,hour:"numeric",minute:"2-digit"})+" IST";
 const g=d=>d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
-$("#cal").href="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent("PESU Moonshots keynote: "+NEXT.talk)+"&dates="+g(start)+"/"+g(end)+"&location="+encodeURIComponent(NEXT.venue)+"&details="+encodeURIComponent("Monthly research keynote at PES University. 4:00 PM IST, GJBC Audi 2A, PES University, RR Campus.");
+$("#cal").href="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent("PESU Moonshots keynote: "+NEXT.talk)+"&dates="+g(start)+"/"+g(end)+"&location="+encodeURIComponent(NEXT.venue)+"&details="+encodeURIComponent("Research keynote at PES University. 4:00 PM IST, GJBC Audi 2A, PES University, RR Campus.");
 const prev={};
 function tick(){ const ms=Math.max(0,start-new Date()); const v={d:Math.floor(ms/864e5),h:Math.floor(ms/36e5)%24,m:Math.floor(ms/6e4)%60,s:Math.floor(ms/1e3)%60};
   document.querySelectorAll("#clock strong").forEach(el=>{const t=String(v[el.dataset.u]).padStart(2,"0"); if(prev[el.dataset.u]!==t){el.textContent=t; prev[el.dataset.u]=t; el.classList.remove("tick"); void el.offsetWidth; el.classList.add("tick");}}); }
@@ -552,7 +591,7 @@ new IntersectionObserver(([en],o)=>{ if(en.isIntersecting && !decrypted){ decryp
         if(!still && Math.random()<.002) cell.h=((Math.random()*256)|0).toString(16).toUpperCase().padStart(2,"0");
         const d=Math.hypot(px-mx,py-my), near=d<150, sd=Math.abs(py-scan);
         if(near){ const k=1-d/150; c.fillStyle=`rgba(255,131,0,${.25+.6*k})`; const ch=MSG[(x+y*(cols%MSG.length))%MSG.length]; if(ch!==" ") c.fillText(ch,px,py); }
-        else { const a=.072+(still?0:Math.max(0,.036-sd/4000)); c.fillStyle=`rgba(0,45,116,${a})`; c.fillText(cell.h,px,py); } } }
+        else { const a=.065+(still?0:Math.max(0,.032-sd/4000)); c.fillStyle=`rgba(0,45,116,${a})`; c.fillText(cell.h,px,py); } } }
     if(!still) requestAnimationFrame(draw); }
   size(); addEventListener("resize",size); let lw=w,lh=h; new ResizeObserver(()=>{ if(sec.clientWidth!==lw||sec.clientHeight!==lh){ size(); lw=w; lh=h; if(still) draw(0); } }).observe(sec); requestAnimationFrame(draw); if(still){ vis=true; draw(0); }
 })();
@@ -606,7 +645,7 @@ new IntersectionObserver(([en],o)=>{ if(en.isIntersecting && !decrypted){ decryp
     d.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(i); } }); });
   svg.addEventListener("pointerleave",()=>show(-1));
 })();
-function renderLog(f){ $("#log").innerHTML=LOG.filter(x=>f==="all"||x.d===f).map(x=>`<article><span class="num">Keynote ${x.n} · ${x.m}</span><h3>${x.t}</h3><span class="domain">${x.d}</span><p class="takeaway">${x.k}</p><a href="#keynotes">Watch recording →</a></article>`).join(""); }
+function renderLog(f){ $("#log").innerHTML=LOG.filter(x=>f==="all"||x.d===f).map(x=>`<article><span class="num">Keynote ${x.n} · ${x.m}</span><h3>${x.t}</h3><p class="spk">${x.sp}</p><span class="domain">${DOM[x.d]}</span><p class="takeaway">${x.k}</p><a href="#keynotes">Watch recording →</a></article>`).join(""); }
 renderLog("all");
 $("#filters").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll("#filters button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderLog(b.dataset.f);});
 $("#pos").innerHTML=POS.map(p=>`<div class="pos"><div><h3>${p.t}</h3><p>${p.l}</p></div><div class="skills">${p.s.map(s=>`<span>${s}</span>`).join("")}</div><a class="btn btn-line" href="#involve">How to apply</a></div>`).join("");
@@ -738,4 +777,5 @@ $("#menuBtn").addEventListener("click",()=>{const o=nav.classList.toggle("open")
 
 })();
 </script>
+
 </body></html>
